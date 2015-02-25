@@ -11,8 +11,13 @@ module Giphy
     end
 
     def search
-      system "echo 'Showing the GIF on your browser'"
-      Launchy.open(url)
+      gif_url = result.image_original_url rescue nil
+
+      if gif_url
+        puts gif_url
+      else
+        puts "Unable to find gif for: '#{search}'"
+      end
     end
 
     private
@@ -24,7 +29,7 @@ module Giphy
     end
 
     def result
-      Giphy.screensaver(keyword)
+      Giphy.random(keyword)
     rescue Giphy::Errors::API
       GifNotFound.new('YyKPbc5OOTSQE')
     end
